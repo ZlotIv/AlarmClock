@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- принудительная установка в память телефона для корректной работы BOOT_COMPLETED-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="internalOnly"
+    package="zlotnikov.alarmclock">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- разрешение для HTC. HTC-устройства не перезагружаются в классическом смысле,
+     а используют так называемый режим Fast boot (это одна из форм гибернации), сохраняя состояние ОС на диск. -->
+    <uses-permission android:name="android.permission.QUICKBOOT_POWERON" />
+    <!-- разрешение на вибрацию -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- запрет на поворот экрана -->
+        <activity
+            android:name=".AlarmSettings"
+            android:screenOrientation="portrait"/>
+
+        <receiver android:name=".RebootReceiver">
+        <intent-filter>
+            <!-- без DEFAULT активность не воспроизводится на экран-->
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+            <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+        </intent-filter>
+        </receiver>
+        <receiver android:name=".AlarmReceiver"/>
+        <!-- сервис, запрет на использование сторонними приложениями -->
+        <service
+            android:name=".AlarmSoundService" />
+
+        <activity android:name=".WakeUp"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+
+</manifest>
