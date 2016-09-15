@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    String g = "1234";
     Context context;
     AlarmManager alarmManager;
     AlertDialog.Builder deleteDialog;
