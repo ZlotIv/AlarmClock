@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    String g = "ветка 2";
     Context context;
     AlarmManager alarmManager;
     AlertDialog.Builder deleteDialog;
