@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
     // интент для переключения работы на другую активность
     Intent toAlarmSettingsIntent;
     ListView listView;
-    Button newAlarmClock;
-    Button chooseButton;
+    ImageButton newAlarmClock;
+    ImageButton chooseButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         listView = (ListView) findViewById(R.id.alarmClock_list);
-        newAlarmClock = (Button) findViewById(R.id.new_alarmClock);
-        chooseButton = (Button) findViewById(R.id.choose_music);
+        newAlarmClock = (ImageButton) findViewById(R.id.new_alarmClock);
+        chooseButton = (ImageButton) findViewById(R.id.choose_music);
         openHelper = new AlarmClockDB(context);
         db = openHelper.getReadableDatabase();
         cursor = db.query("ALARMCLOCK", new String[]{"_id", "HOURS", "MINUTES", "DAYS", "MASSIVE"}, null, null, null, null, null);

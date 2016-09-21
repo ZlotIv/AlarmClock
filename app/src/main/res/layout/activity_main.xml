@@ -9,13 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="zlotnikov.alarmclock.MainActivity"
     android:orientation="vertical">
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="80dp"
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/new_alarmClock"
         android:onClick="onClickAlarm"
-        android:text="Добавить будильник"
-        android:layout_centerHorizontal="true"/>
+        android:src="@drawable/alarm_icon"
+        android:layout_centerHorizontal="true"
+        android:background="@null"/>
     <ListView
         android:id="@+id/alarmClock_list"
         android:layout_width="match_parent"
@@ -23,12 +24,13 @@
         android:layout_below="@id/new_alarmClock">
     </ListView>
 
-    <Button
+    <ImageButton
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="музыка"
         android:id="@+id/choose_music"
+        android:src="@drawable/songs_icon"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/new_alarmClock" />
+        android:layout_alignParentRight="true"
+        android:background="@null"/>
 </RelativeLayout>
