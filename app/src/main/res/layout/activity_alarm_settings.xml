@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/timePicker"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="@style/myTimePicker"/>
 
     <Button
         android:layout_width="150dp"
@@ -22,10 +23,5 @@
         android:text="Выбрать дни"
         android:id="@+id/choose_days"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:contextClickable="false"
-        android:elegantTextHeight="false"
-        android:focusableInTouchMode="false" />
-
-
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

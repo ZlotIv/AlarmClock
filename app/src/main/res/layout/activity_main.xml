@@ -21,7 +21,9 @@
         android:id="@+id/alarmClock_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/new_alarmClock">
+        android:layout_below="@id/new_alarmClock"
+        android:divider="@color/colorBlack"
+        android:dividerHeight="1dp">
     </ListView>
 
     <ImageButton

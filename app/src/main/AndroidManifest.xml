@@ -3,6 +3,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="internalOnly"
     package="zlotnikov.alarmclock">
+    <uses-sdk android:minSdkVersion="21"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- разрешение для HTC. HTC-устройства не перезагружаются в классическом смысле,

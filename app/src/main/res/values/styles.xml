@@ -3,10 +3,19 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorBlack</item>
+        <item name="android:background">@color/colorGold</item>
     </style>
+    <style name="myTimePicker" parent="@android:style/Widget.Material.TimePicker">
+        <item name="android:headerBackground">@color/colorBlack</item>
+        <item name="android:numbersSelectorColor">@color/colorGold</item>
+        <item name="android:numbersBackgroundColor">@color/colorBlack</item>
+        <item name="android:numbersTextColor">@color/colorGold</item>
+    </style>
+    <style name="myTextView" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 
 </resources>
