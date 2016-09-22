@@ -23,5 +23,7 @@
         android:text="Выбрать дни"
         android:id="@+id/choose_days"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/choosedaysbuttonselector"
+        android:textColor="@color/colorWhite" />
 </RelativeLayout>

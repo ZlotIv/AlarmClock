@@ -6,4 +6,5 @@
     <color name="colorGold">#D4AF37</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorBlood">#DC143C</color>
 </resources>
