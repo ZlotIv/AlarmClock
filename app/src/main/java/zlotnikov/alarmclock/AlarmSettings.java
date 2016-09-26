@@ -1,6 +1,7 @@
 package zlotnikov.alarmclock;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,8 +27,9 @@ public class AlarmSettings extends AppCompatActivity {
     // массив дней недели для диалог. окна
     String[] daysArray = new String[]{"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
     boolean[] checkDays = new boolean[]{true, true, true, true, true, false, false};
-    AlertDialog.Builder builder;
-    AlertDialog alertDialog;
+    AlertDialog.Builder daysDialogBuilder;
+    // переменная для того, чтобы сделать диалог с тупыми углами
+    Dialog daysDialog;
     TimePicker timePicker;
     SQLiteDatabase db;
     SQLiteOpenHelper openHelper;
@@ -63,12 +65,12 @@ public class AlarmSettings extends AppCompatActivity {
         intBuffer = new StringBuffer();
         toMainIntent = new Intent(context, MainActivity.class);
         toReceiverIntent = new Intent(context, AlarmReceiver.class);
-        builder = new AlertDialog.Builder(this, R.style.myAlertDialog);
+        daysDialogBuilder = new AlertDialog.Builder(this, R.style.myAlertDialog);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        builder.setTitle("Выберите дни недели");
+        daysDialogBuilder.setTitle("Выберите дни недели");
         // установка диалог. окна с множественным выбором
-        builder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
+        daysDialogBuilder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 // обновление массива в соответствии с нажатием
@@ -76,13 +78,13 @@ public class AlarmSettings extends AppCompatActivity {
 
             }
         });
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        builder.setPositiveButton("Установить будильник", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setPositiveButton("Установить будильник", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // проверка на существование true в массиве
@@ -126,12 +128,12 @@ public class AlarmSettings extends AppCompatActivity {
                 }
             }
         });
-        // инициализация диалог. окна сборщиком
-        alertDialog = builder.create();
+        daysDialog = daysDialogBuilder.create();
+        daysDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
         chooseDays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.show();
+                daysDialog.show();
             }
         });
     }

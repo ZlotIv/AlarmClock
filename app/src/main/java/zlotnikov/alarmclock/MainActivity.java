@@ -1,6 +1,7 @@
 package zlotnikov.alarmclock;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,8 +24,11 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Context context;
     AlarmManager alarmManager;
-    AlertDialog.Builder deleteDialog;
-    AlertDialog.Builder songDialog;
+    AlertDialog.Builder deleteDialogBuilder;
+    AlertDialog.Builder songDialogBuilder;
+    // переменные для того, чтобы сделать диалоги с тупыми углами
+    Dialog deleteDialog;
+    Dialog songDialog;
     // интент для удаления
     Intent toReceiverIntent;
     PendingIntent pendingIntent;
@@ -52,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         // формирование столбцов сопоставления
         String[] from = new String[]{"HOURS", "MINUTES", "DAYS"};
         int[] to = new int[]{R.id.hours, R.id.minutes, R.id.days};
-        deleteDialog = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
-        songDialog = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
+        deleteDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
+        songDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
 
 
         // НЕ ЗАБЫТЬ УДАЛИТЬ!!!
@@ -72,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
         // диалоговое окно для удаления будильника
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {@Override
         public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
-            deleteDialog.setTitle("Удалить будильник?");
-            deleteDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            deleteDialogBuilder.setTitle("Удалить будильник?");
+            deleteDialogBuilder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
-            deleteDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            deleteDialogBuilder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     deleteAlarmClock(id);
@@ -90,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
                     dialog.cancel();
                 }
             });
-            deleteDialog.create().show();
+            deleteDialog = deleteDialogBuilder.create();
+            deleteDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
+            deleteDialog.show();
 
         }
         });
@@ -163,15 +169,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences saveSong = getSharedPreferences("song", MODE_PRIVATE);
         final SharedPreferences.Editor saveSongEditor = saveSong.edit();
         final String[] songs = {"Звонок будильника", "Бетховен - Тишина", "Бетховен - 5 симфония", "Моцарт - Фантазия", "Деревенский будильник"};
-        songDialog.setTitle("Выберите мелодию для будильника");
-        songDialog.setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
+        songDialogBuilder.setTitle("Выберите мелодию для будильника");
+        songDialogBuilder.setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 stopService(toAlarmSoundService);
                 dialog.cancel();
             }
         });
-        songDialog.setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+        songDialogBuilder.setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveSongEditor.apply();
@@ -179,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        songDialog.setSingleChoiceItems(songs, song, new DialogInterface.OnClickListener() {
+        songDialogBuilder.setSingleChoiceItems(songs, song, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
@@ -218,6 +224,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                songDialog.create().show();
+        songDialog = songDialogBuilder.create();
+        songDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
+        songDialog.show();
+
     }
 }
