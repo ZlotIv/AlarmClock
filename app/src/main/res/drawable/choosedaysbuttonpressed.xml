@@ -4,8 +4,8 @@
         <shape>
             <solid android:color="@color/colorBlack"/>
             <stroke android:width="2dp"
-                android:color="@color/colorBlood" />
-            <corners android:radius="10.0dip"/>
+                android:color="@color/colorWhite" />
+            <corners android:radius="10dp"/>
         </shape>
     </item>
 </selector>

@@ -4,18 +4,25 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:statusBarColor">@color/colorBlack</item>
-        <item name="android:background">@color/colorGold</item>
+        <item name="android:timePickerStyle">@style/myTimePicker</item>
+        <item name="android:colorBackground">@color/colorGold</item>
     </style>
-    <style name="myTimePicker" parent="@android:style/Widget.Material.TimePicker">
-        <item name="android:headerBackground">@color/colorBlack</item>
-        <item name="android:numbersSelectorColor">@color/colorGold</item>
+    <style name="myTimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:numbersSelectorColor">@color/colorWhite</item>
         <item name="android:numbersBackgroundColor">@color/colorBlack</item>
-        <item name="android:numbersTextColor">@color/colorGold</item>
+        <item name="android:numbersTextColor">@color/colorWhite</item>
+        <item name="android:headerBackground">@drawable/timepickerheader</item>
     </style>
-    <style name="myTextView" parent="android:Widget.TextView">
+    <style name="myTextView" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">20sp</item>
     </style>
-
+    <style name="myAlertDialog" parent="@style/Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:colorAccent">@color/colorBlack</item>
+        <item name="android:background">@drawable/alertdialogbackground</item>
+        <item name="android:colorControlNormal">@color/colorBlack</item>
+        <item name="android:colorControlActivated">@color/colorBlack</item>
+    </style>
 
 </resources>

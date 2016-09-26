@@ -63,7 +63,7 @@ public class AlarmSettings extends AppCompatActivity {
         intBuffer = new StringBuffer();
         toMainIntent = new Intent(context, MainActivity.class);
         toReceiverIntent = new Intent(context, AlarmReceiver.class);
-        builder = new AlertDialog.Builder(this);
+        builder = new AlertDialog.Builder(this, R.style.myAlertDialog);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         builder.setTitle("Выберите дни недели");

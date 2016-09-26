@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -53,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         // формирование столбцов сопоставления
         String[] from = new String[]{"HOURS", "MINUTES", "DAYS"};
         int[] to = new int[]{R.id.hours, R.id.minutes, R.id.days};
-        deleteDialog = new AlertDialog.Builder(MainActivity.this);
-        songDialog = new AlertDialog.Builder(MainActivity.this);
+        deleteDialog = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
+        songDialog = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
 
 
         // НЕ ЗАБЫТЬ УДАЛИТЬ!!!
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         // диалоговое окно для удаления будильника
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {@Override
         public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
-            deleteDialog.setMessage("Удалить будильник?");
+            deleteDialog.setTitle("Удалить будильник?");
             deleteDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -164,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences saveSong = getSharedPreferences("song", MODE_PRIVATE);
         final SharedPreferences.Editor saveSongEditor = saveSong.edit();
         final String[] songs = {"Звонок будильника", "Бетховен - Тишина", "Бетховен - 5 симфония", "Моцарт - Фантазия", "Деревенский будильник"};
-        songDialog = new AlertDialog.Builder(MainActivity.this);
         songDialog.setTitle("Выберите мелодию для будильника");
         songDialog.setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
             @Override
