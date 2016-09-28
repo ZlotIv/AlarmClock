@@ -10,13 +10,12 @@
     tools:context="zlotnikov.alarmclock.MainActivity"
     android:orientation="vertical">
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/new_alarmClock"
         android:onClick="onClickAlarm"
-        android:src="@drawable/alarm_icon"
         android:layout_centerHorizontal="true"
-        android:background="@null"/>
+        android:background="@drawable/newalarmbuttonselector"/>
     <ListView
         android:id="@+id/alarmClock_list"
         android:layout_width="match_parent"
@@ -31,8 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/choose_music"
-        android:src="@drawable/songs_icon"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:background="@null"/>
+        android:background="@drawable/choosesongbuttonselector"/>
 </RelativeLayout>
