@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -55,14 +56,14 @@ public class WakeUp extends AppCompatActivity {
             public void onClick(View v) {
                 stopService(toAlarmSoundService);
                 repeatAlarmClock();
-                finish();
+                finishApp();
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopService(toAlarmSoundService);
-                finish();
+                finishApp();
             }
         });
     }
@@ -71,7 +72,7 @@ public class WakeUp extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         stopService(toAlarmSoundService);
-        finish();
+        finishApp();
     }
 
     // установка следующего будильника
@@ -93,6 +94,22 @@ public class WakeUp extends AppCompatActivity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
     }
+    // полное завершение приложения
+    public void finishApp(){
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+            finishAndRemoveTask();
+        } else {
+
+            if (Build.VERSION.SDK_INT >= 16)
+            {
+                finishAffinity();
+            } else {
+                finish();
+            }
+        }
+        Process.killProcess(Process.myPid());
+        }
     // установка будильника через 5 минут
     public void repeatAlarmClock(){
         repeatIntent = new Intent(context, AlarmReceiver.class);
