@@ -101,10 +101,14 @@ public class AlarmSettings extends AppCompatActivity {
                         // получение часов и минут для разных версий API
                         if (Build.VERSION.SDK_INT >= 23) {
                             timePickerHours = timePicker.getHour();
+                            System.out.println(timePickerHours);
                             timePickerMinutes = timePicker.getMinute();
+                            System.out.println(timePickerMinutes);
                         } else {
                             timePickerHours = timePicker.getCurrentHour();
+                            System.out.println(timePickerMinutes);
                             timePickerMinutes = timePicker.getCurrentMinute();
+                            System.out.println(timePickerMinutes);
                         }
                         // инициализация календаря
                         calendar = Calendar.getInstance();

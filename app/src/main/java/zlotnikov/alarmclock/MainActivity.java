@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ImageButton newAlarmClock;
     ImageButton chooseButton;
+    Button negativeButton;
+    Button positiveButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             deleteDialog = deleteDialogBuilder.create();
             deleteDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
             deleteDialog.show();
-
         }
         });
         // к настройкам

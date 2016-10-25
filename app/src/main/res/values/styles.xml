@@ -23,7 +23,6 @@
         <item name="android:colorAccent">@color/colorBlack</item>
         <item name="android:colorControlNormal">@color/colorBlack</item>
         <item name="android:colorControlActivated">@color/colorBlack</item>
-        <item name="android:colorButtonNormal">@color/colorBlack</item>
         <item name="android:textColorAlertDialogListItem">@color/colorBlack</item>
     </style>
 </resources>
