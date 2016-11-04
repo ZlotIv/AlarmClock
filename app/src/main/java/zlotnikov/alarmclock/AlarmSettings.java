@@ -29,7 +29,7 @@ public class AlarmSettings extends AppCompatActivity {
     boolean[] checkDays = new boolean[]{true, true, true, true, true, false, false};
     AlertDialog.Builder daysDialogBuilder;
     // переменная для того, чтобы сделать диалог с тупыми углами
-    Dialog daysDialog;
+    AlertDialog daysDialog;
     TimePicker timePicker;
     SQLiteDatabase db;
     SQLiteOpenHelper openHelper;
@@ -84,7 +84,7 @@ public class AlarmSettings extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        daysDialogBuilder.setPositiveButton("Установить будильник", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setPositiveButton("Установить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // проверка на существование true в массиве

@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder deleteDialogBuilder;
     AlertDialog.Builder songDialogBuilder;
     // переменные для того, чтобы сделать диалоги с тупыми углами
-    Dialog deleteDialog;
-    Dialog songDialog;
+    AlertDialog deleteDialog;
+    AlertDialog songDialog;
     // интент для удаления
     Intent toReceiverIntent;
     PendingIntent pendingIntent;
@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ImageButton newAlarmClock;
     ImageButton chooseButton;
-    Button negativeButton;
-    Button positiveButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
