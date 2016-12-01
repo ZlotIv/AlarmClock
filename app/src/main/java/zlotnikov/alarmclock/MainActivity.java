@@ -21,7 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-//тест
+
+// для теста
 
 
 
