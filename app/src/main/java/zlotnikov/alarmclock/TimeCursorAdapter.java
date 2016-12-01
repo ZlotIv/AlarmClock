@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class TimeCursorAdapter extends SimpleCursorAdapter {
+ class TimeCursorAdapter extends SimpleCursorAdapter {
 
-    public TimeCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
+     TimeCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+         super(context, layout, c, from, to, flags);
     }
 
     // связывание данных с ячейкой списка
