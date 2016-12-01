@@ -1,7 +1,6 @@
 package zlotnikov.alarmclock;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,45 +12,31 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Context context;
-    AlarmManager alarmManager;
-    AlertDialog.Builder deleteDialogBuilder;
-    AlertDialog.Builder songDialogBuilder;
-    // переменные для того, чтобы сделать диалоги с тупыми углами
-    AlertDialog deleteDialog;
-    AlertDialog songDialog;
-    // интент для удаления
-    Intent toReceiverIntent;
-    PendingIntent pendingIntent;
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
-    Cursor cursor;
-    CursorAdapter adapter;
-    public final String TAG = this.getClass().getSimpleName();
-    // интент для переключения работы на другую активность
-    Intent toAlarmSettingsIntent;
-    ListView listView;
-    ImageButton newAlarmClock;
-    ImageButton chooseButton;
+    private Context context;
+    private AlertDialog.Builder deleteDialogBuilder;
+    private AlertDialog.Builder songDialogBuilder;
+    private SQLiteDatabase db;
+    private Cursor cursor;
+    private CursorAdapter adapter;
+    private final String[] songs = {"Звонок будильника", "Бетховен - Тишина", "Бетховен - 5 симфония", "Моцарт - Фантазия", "Деревенский будильник"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
-        listView = (ListView) findViewById(R.id.alarmClock_list);
-        newAlarmClock = (ImageButton) findViewById(R.id.new_alarmClock);
-        chooseButton = (ImageButton) findViewById(R.id.choose_music);
-        openHelper = new AlarmClockDB(context);
+        ListView listView = (ListView) findViewById(R.id.alarmClock_list);
+        ImageView newAlarmClock = (ImageButton) findViewById(R.id.new_alarmClock);
+        ImageView chooseButton = (ImageButton) findViewById(R.id.choose_music);
+        SQLiteOpenHelper openHelper = new AlarmClockDB(context);
         db = openHelper.getReadableDatabase();
         cursor = db.query("ALARMCLOCK", new String[]{"_id", "HOURS", "MINUTES", "DAYS", "MASSIVE"}, null, null, null, null, null);
         // формирование столбцов сопоставления
@@ -59,20 +44,9 @@ public class MainActivity extends AppCompatActivity {
         int[] to = new int[]{R.id.hours, R.id.minutes, R.id.days};
         deleteDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
         songDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
-
-
-        // НЕ ЗАБЫТЬ УДАЛИТЬ!!!
-
-
-
-        //db.delete("ALARMCLOCK", null, null);
-        while(cursor.moveToNext()){
-            System.out.println(cursor.getInt(cursor.getColumnIndex("_id"))+ " " + cursor.getInt(cursor.getColumnIndex("HOURS")) + " " + cursor.getString(cursor.getColumnIndex("MASSIVE")));
-        }
-
-
-
         adapter = new TimeCursorAdapter(context, R.layout.list_item_layout, cursor, from, to, 0);
+
+
         listView.setAdapter(adapter);
         // диалоговое окно для удаления будильника
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {@Override
@@ -95,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.cancel();
                 }
             });
-            deleteDialog = deleteDialogBuilder.create();
+            AlertDialog deleteDialog = deleteDialogBuilder.create();
             deleteDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
             deleteDialog.show();
         }
@@ -104,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         newAlarmClock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toAlarmSettingsIntent = new Intent(context, AlarmSettings.class);
+                Intent toAlarmSettingsIntent = new Intent(context, AlarmSettings.class);
                 startActivity(toAlarmSettingsIntent);
             }
         });
@@ -123,23 +97,18 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         db.close();
     }
-    public void deleteAlarmClock(long id){
+    private void deleteAlarmClock(long id){
         // запрос на удаление данных из БД
         db.delete("ALARMCLOCK","_id = ?", new String[]{String.valueOf(id)});
         System.out.println("id в списке " + id);
         Toast toast = Toast.makeText(context, "Будильник удалён", Toast.LENGTH_SHORT);
         toast.show();
-        toReceiverIntent = new Intent(context, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(context, (int)id, toReceiverIntent, 0);
-        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        try {
-            alarmManager.cancel(pendingIntent);
-            Log.e(TAG, "Будильние удалён");
-        }catch (Exception e){
-            Log.e(TAG, "НЕ удалось удалить будильник");
-        }
+        Intent toReceiverIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int)id, toReceiverIntent, 0);
+         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
-    public void chooseSong(){
+    private void chooseSong(){
         final Intent toAlarmSoundService = new Intent(context, AlarmSoundService.class);
         // префенс для загрузки мелодии
         SharedPreferences loadSong = getSharedPreferences("song", MODE_PRIVATE);
@@ -168,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         // преференс для сохранения мелодии
         SharedPreferences saveSong = getSharedPreferences("song", MODE_PRIVATE);
         final SharedPreferences.Editor saveSongEditor = saveSong.edit();
-        final String[] songs = {"Звонок будильника", "Бетховен - Тишина", "Бетховен - 5 симфония", "Моцарт - Фантазия", "Деревенский будильник"};
         songDialogBuilder.setTitle("Выберите мелодию для будильника");
         songDialogBuilder.setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
             @Override
@@ -224,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        songDialog = songDialogBuilder.create();
+        AlertDialog songDialog = songDialogBuilder.create();
         songDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
         songDialog.show();
 
