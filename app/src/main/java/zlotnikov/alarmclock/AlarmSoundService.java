@@ -15,15 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 
 public class AlarmSoundService extends Service {
-    SharedPreferences preference;
-    AudioManager audioManager;
-    // медиаплеер для воспроизведения музыки
-    MediaPlayer mediaPlayer;
-    long mills[] = {1000, 1000, 1000, 1000};
-    int volume = 1;
-    Vibrator vibrator;
-    ChangeVolumeTask changeVolumeTask = new ChangeVolumeTask();
-    int song = R.raw.beethovensilence;
+    private AudioManager audioManager;
+    private MediaPlayer mediaPlayer;
+    private final long mills[] = {1000, 1000, 1000, 1000};
+    private int volume = 1;
+    private Vibrator vibrator;
+    private ChangeVolumeTask changeVolumeTask = new ChangeVolumeTask();
+    private int song = R.raw.beethovensilence;
     // для связывания компонентов со службой
     @Nullable
     @Override
@@ -35,7 +33,7 @@ public class AlarmSoundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        preference = getSharedPreferences("song", MODE_PRIVATE);
+        SharedPreferences preference = getSharedPreferences("song", MODE_PRIVATE);
         if(intent.getExtras() != null){
             listenSong(intent.getExtras().getInt("song"));
         }
@@ -62,7 +60,6 @@ public class AlarmSoundService extends Service {
             while (volume < 14) {
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
                 volume += 1;
-                System.out.println(volume);
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -72,7 +69,7 @@ public class AlarmSoundService extends Service {
             return null;
         }
     }
-    public void alarmClock(){
+    private void alarmClock(){
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(mills, 0);
         // получение аудио файла
@@ -84,7 +81,7 @@ public class AlarmSoundService extends Service {
         mediaPlayer.start();
         changeVolumeTask.execute();
     }
-    public void listenSong(int song){
+    private void listenSong(int song){
         mediaPlayer = MediaPlayer.create(this, song);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();

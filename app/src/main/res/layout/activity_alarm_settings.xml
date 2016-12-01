@@ -23,9 +23,6 @@
         android:id="@+id/choose_days"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:contextClickable="false"
-        android:elegantTextHeight="false"
-        android:focusableInTouchMode="false" />
-
-
+        android:background="@drawable/choosedaysbuttonselector"
+        android:textColor="@color/colorWhite" />
 </RelativeLayout>

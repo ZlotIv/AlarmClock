@@ -1,6 +1,7 @@
 package zlotnikov.alarmclock;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,34 +20,26 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class AlarmSettings extends AppCompatActivity {
-    Context context;
-    Calendar calendar;
-    PendingIntent pendingIntent;
-    AlarmManager alarmManager;
+    private Context context;
+    private Calendar calendar;
+    private AlertDialog daysDialog;
     // массив дней недели для диалог. окна
-    String[] daysArray = new String[]{"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
-    boolean[] checkDays = new boolean[]{true, true, true, true, true, false, false};
-    AlertDialog.Builder builder;
-    AlertDialog alertDialog;
-    TimePicker timePicker;
-    SQLiteDatabase db;
-    SQLiteOpenHelper openHelper;
-    Cursor cursor;
-    // переменная для хранения id из БД
-    int id;
-    Intent toMainIntent;
-    Intent toReceiverIntent;
-    Button chooseDays;
+    private final String[] daysArray = new String[]{"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
+    private boolean[] checkDays = new boolean[]{true, true, true, true, true, false, false};
+    private SQLiteDatabase db;
+    private SQLiteOpenHelper openHelper;
+    private Cursor cursor;
+    private TimePicker timePicker;
     // буфер для скопления дней в виде "ПН ВТ .."
-    StringBuffer stringBuffer;
+    private StringBuffer stringBuffer;
     // буфер для скопления дней в виде "10110"
-    StringBuffer intBuffer;
-    int timePickerHours;
-    int timePickerMinutes;
+    private StringBuffer intBuffer;
+    private int timePickerHours;
+    private int timePickerMinutes;
     // переменная для записи данных stringBuffer в БД
-    String stringDays = "";
+    private String stringDays = "";
     // переменная для записи данных intBuffer в БД
-    String intDays = "";
+    private String intDays = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,20 +48,17 @@ public class AlarmSettings extends AppCompatActivity {
         openHelper = new AlarmClockDB(context);
         db = openHelper.getWritableDatabase();
         cursor = db.query("ALARMCLOCK", new String[]{"_id"}, null, null, null, null, null);
-        chooseDays = (Button) findViewById(R.id.choose_days);
+        Button chooseDays = (Button) findViewById(R.id.choose_days);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         // установка 24 часового формата
         timePicker.setIs24HourView(true);
         stringBuffer = new StringBuffer();
         intBuffer = new StringBuffer();
-        toMainIntent = new Intent(context, MainActivity.class);
-        toReceiverIntent = new Intent(context, AlarmReceiver.class);
-        builder = new AlertDialog.Builder(this);
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlertDialog.Builder daysDialogBuilder = new AlertDialog.Builder(this, R.style.myAlertDialog);
 
-        builder.setTitle("Выберите дни недели");
+        daysDialogBuilder.setTitle("Выберите дни недели");
         // установка диалог. окна с множественным выбором
-        builder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
+        daysDialogBuilder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 // обновление массива в соответствии с нажатием
@@ -76,13 +66,13 @@ public class AlarmSettings extends AppCompatActivity {
 
             }
         });
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        builder.setPositiveButton("Установить будильник", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setPositiveButton("Установить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // проверка на существование true в массиве
@@ -99,10 +89,14 @@ public class AlarmSettings extends AppCompatActivity {
                         // получение часов и минут для разных версий API
                         if (Build.VERSION.SDK_INT >= 23) {
                             timePickerHours = timePicker.getHour();
+                            System.out.println(timePickerHours);
                             timePickerMinutes = timePicker.getMinute();
+                            System.out.println(timePickerMinutes);
                         } else {
                             timePickerHours = timePicker.getCurrentHour();
+                            System.out.println(timePickerMinutes);
                             timePickerMinutes = timePicker.getCurrentMinute();
+                            System.out.println(timePickerMinutes);
                         }
                         // инициализация календаря
                         calendar = Calendar.getInstance();
@@ -120,18 +114,19 @@ public class AlarmSettings extends AppCompatActivity {
                         // установка будильника
                         setAlarmClock();
                         // старт активности
+                        Intent toMainIntent = new Intent(context, MainActivity.class);
                         startActivity(toMainIntent);
                         break;
                     }
                 }
             }
         });
-        // инициализация диалог. окна сборщиком
-        alertDialog = builder.create();
+        daysDialog = daysDialogBuilder.create();
+        daysDialog.getWindow().setBackgroundDrawableResource(R.drawable.alertdialogbackground);
         chooseDays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.show();
+                daysDialog.show();
             }
         });
     }
@@ -144,24 +139,26 @@ public class AlarmSettings extends AppCompatActivity {
 
     }
 
-    public void setAlarmClock(){
+    private void setAlarmClock(){
         // запись в БД
         AlarmClockDB.insertAlarmClock(db, timePickerHours, timePickerMinutes, stringDays, intDays);
         db = openHelper.getReadableDatabase();
+        Intent toReceiverIntent = new Intent(context, AlarmReceiver.class);
         // получения id у последней записи и отправление данных о будильнике
         if (cursor.moveToLast()) {
-            id = cursor.getInt(cursor.getColumnIndex("_id"));
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
             toReceiverIntent.putExtra("id", id);
             toReceiverIntent.putExtra("hours", timePickerHours);
             toReceiverIntent.putExtra("minutes", timePickerMinutes);
             toReceiverIntent.putExtra("checkDays", checkDays);
             // инициализация отложенного интента
-            pendingIntent = PendingIntent.getBroadcast(context, id, toReceiverIntent, 0);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, toReceiverIntent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
         }
         // тостер, оповещающий о создании будильника
         Toast toast = Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT);
@@ -229,7 +226,7 @@ public class AlarmSettings extends AppCompatActivity {
         }
     }
     // метод сортировки. Неделя начинается с воскресенья, а не понедельника.
-    public void sortWeek(boolean[] mas, StringBuffer intBuffer){
+    private void sortWeek(boolean[] mas, StringBuffer intBuffer){
 
         boolean temp = mas[mas.length - 1];
         for(int i = mas.length - 1; i > 0; i--){
