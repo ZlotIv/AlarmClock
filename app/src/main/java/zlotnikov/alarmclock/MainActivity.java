@@ -20,12 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-
-// для теста
-
-
-
 public class MainActivity extends AppCompatActivity {
     private Context context;
     private AlertDialog.Builder deleteDialogBuilder;

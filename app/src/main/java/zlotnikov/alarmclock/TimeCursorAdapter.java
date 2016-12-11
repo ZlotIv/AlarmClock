@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
- class TimeCursorAdapter extends SimpleCursorAdapter {
+class TimeCursorAdapter extends SimpleCursorAdapter {
 
      TimeCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
          super(context, layout, c, from, to, flags);
