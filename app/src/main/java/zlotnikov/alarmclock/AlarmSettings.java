@@ -56,7 +56,7 @@ public class AlarmSettings extends AppCompatActivity {
         intBuffer = new StringBuffer();
         AlertDialog.Builder daysDialogBuilder = new AlertDialog.Builder(this, R.style.myAlertDialog);
 
-        daysDialogBuilder.setTitle("Выберите дни недели");
+        daysDialogBuilder.setTitle(R.string.choosedaysTitle);
         // установка диалог. окна с множественным выбором
         daysDialogBuilder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
@@ -66,13 +66,13 @@ public class AlarmSettings extends AppCompatActivity {
 
             }
         });
-        daysDialogBuilder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        daysDialogBuilder.setPositiveButton("Установить", new DialogInterface.OnClickListener() {
+        daysDialogBuilder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // проверка на существование true в массиве
@@ -157,7 +157,7 @@ public class AlarmSettings extends AppCompatActivity {
             }
         }
         // тостер, оповещающий о создании будильника
-        Toast toast = Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, R.string.alarmClockConfirm, Toast.LENGTH_SHORT);
         toast.show();
     }
 

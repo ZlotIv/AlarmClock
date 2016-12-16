@@ -34,13 +34,16 @@ public class AlarmSoundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         SharedPreferences preference = getSharedPreferences("song", MODE_PRIVATE);
+        // если в интенте передаётся мелодия, то надо просто прослушать мелодию
         if(intent.getExtras() != null){
             listenSong(intent.getExtras().getInt("song"));
         }
+        // если в перференсе уже хранится мелодия, то прозвенеть с ней
         else if(preference.contains("song")) {
             song = preference.getInt("song", 0);
             alarmClock();
         }
+        // иначе прозвенеть с мелодией по умолчанию
         else{
             alarmClock();
         }

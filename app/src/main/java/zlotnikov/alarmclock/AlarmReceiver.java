@@ -16,6 +16,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         // установка флага для интента
         toWakeUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.getApplicationContext().startActivity(toWakeUpIntent);
-        Log.e("Лог", "во втором ресивере");
     }
 }

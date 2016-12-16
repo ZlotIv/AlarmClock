@@ -12,7 +12,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Стоп"
         android:id="@+id/stopButton"
         android:layout_alignParentBottom="true"
         android:textColor="@color/colorWhite"
@@ -21,7 +20,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Повторить через 5 минут"
         android:id="@+id/repeatButton"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

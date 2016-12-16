@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
         // диалоговое окно для удаления будильника
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {@Override
         public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
-            deleteDialogBuilder.setTitle("Удалить будильник?");
-            deleteDialogBuilder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            deleteDialogBuilder.setTitle(R.string.deleteAlarmClockAsk);
+            deleteDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
-            deleteDialogBuilder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            deleteDialogBuilder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     deleteAlarmClock(id);
@@ -100,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private void deleteAlarmClock(long id){
         // запрос на удаление данных из БД
         db.delete("ALARMCLOCK","_id = ?", new String[]{String.valueOf(id)});
-        System.out.println("id в списке " + id);
-        Toast toast = Toast.makeText(context, "Будильник удалён", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, R.string.deleteAlarmClockToast, Toast.LENGTH_SHORT);
         toast.show();
         Intent toReceiverIntent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int)id, toReceiverIntent, 0);
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent toAlarmSoundService = new Intent(context, AlarmSoundService.class);
         // префенс для загрузки мелодии
         SharedPreferences loadSong = getSharedPreferences("song", MODE_PRIVATE);
-        // утсновка "выбора" на установленной мелодии
+        // установка "выбора" на мелодии по умолчанию
         int song = 1;
         if(loadSong.contains("song")) {
             song = loadSong.getInt("song", 0);
@@ -137,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
         // преференс для сохранения мелодии
         SharedPreferences saveSong = getSharedPreferences("song", MODE_PRIVATE);
         final SharedPreferences.Editor saveSongEditor = saveSong.edit();
-        songDialogBuilder.setTitle("Выберите мелодию для будильника");
-        songDialogBuilder.setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
+        songDialogBuilder.setTitle(R.string.chooseSong);
+        songDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 stopService(toAlarmSoundService);
                 dialog.cancel();
             }
         });
-        songDialogBuilder.setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+        songDialogBuilder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveSongEditor.apply();

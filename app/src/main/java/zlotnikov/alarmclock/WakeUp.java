@@ -13,10 +13,10 @@ import android.widget.Button;
 import java.util.Calendar;
 
 public class WakeUp extends AppCompatActivity {
-    Intent getIntent;
-    AlarmManager alarmManager;
-    Context context;
-    Intent toAlarmSoundService;
+    private Intent getIntent;
+    private AlarmManager alarmManager;
+    private Context context;
+    private Intent toAlarmSoundService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,9 @@ public class WakeUp extends AppCompatActivity {
         // получение контекста
         context = getApplicationContext();
         Button stopButton = (Button) findViewById(R.id.stopButton);
+        stopButton.setText(R.string.stop);
         Button repeatButton = (Button) findViewById(R.id.repeatButton);
+        stopButton.setText(R.string.repeatAlarmClock);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         toAlarmSoundService = new Intent(context, AlarmSoundService.class);
         getIntent = getIntent();
@@ -93,8 +95,6 @@ public class WakeUp extends AppCompatActivity {
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-
-    // очистка флагов
     @Override
     protected void onDestroy() {
         super.onDestroy();
