@@ -26,9 +26,6 @@ public class AlarmSettings extends AppCompatActivity {
     // массив дней недели для диалог. окна
     private final String[] daysArray = new String[]{"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
     private boolean[] checkDays = new boolean[]{true, true, true, true, true, false, false};
-    private SQLiteDatabase db;
-    private SQLiteOpenHelper openHelper;
-    private Cursor cursor;
     private TimePicker timePicker;
     // буфер для скопления дней в виде "ПН ВТ .."
     private StringBuffer stringBuffer;
@@ -45,12 +42,8 @@ public class AlarmSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_settings);
         context = getApplicationContext();
-        openHelper = new AlarmClockDB(context);
-        db = openHelper.getWritableDatabase();
-        cursor = db.query("ALARMCLOCK", new String[]{"_id"}, null, null, null, null, null);
         Button chooseDays = (Button) findViewById(R.id.choose_days);
         timePicker = (TimePicker) findViewById(R.id.timePicker);
-        // установка 24 часового формата
         timePicker.setIs24HourView(true);
         stringBuffer = new StringBuffer();
         intBuffer = new StringBuffer();
@@ -127,15 +120,10 @@ public class AlarmSettings extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cursor.close();
-        db.close();
-
-    }
-
     public void setAlarmClock(){
+        SQLiteOpenHelper openHelper = new AlarmClockDB(context);
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        Cursor cursor = db.query("ALARMCLOCK", new String[]{"_id"}, null, null, null, null, null);
         // запись в БД
         AlarmClockDB.insertAlarmClock(db, timePickerHours, timePickerMinutes, stringDays, intDays);
         db = openHelper.getReadableDatabase();
@@ -159,6 +147,8 @@ public class AlarmSettings extends AppCompatActivity {
         // тостер, оповещающий о создании будильника
         Toast toast = Toast.makeText(context, R.string.alarmClockConfirm, Toast.LENGTH_SHORT);
         toast.show();
+        cursor.close();
+        db.close();
     }
 
     // алгоритм установки будильника по дням недели

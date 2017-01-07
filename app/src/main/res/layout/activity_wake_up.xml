@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/stopButton"
         android:layout_alignParentBottom="true"
+        android:text="@string/stop"
         android:textColor="@color/colorWhite"
         android:background="@drawable/choosedaysbuttonselector"/>
 
@@ -24,5 +25,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/choosedaysbuttonselector"
+        android:text="@string/repeatAlarmClock"
         android:textColor="@color/colorWhite"/>
 </RelativeLayout>

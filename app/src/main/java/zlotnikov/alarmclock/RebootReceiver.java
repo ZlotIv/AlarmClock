@@ -50,6 +50,7 @@ public class RebootReceiver extends BroadcastReceiver {
             }
 
         }
+        cursor.close();
     }
     public void conversion(String days, boolean[] checkDays){
         for(int i = 0; i < days.toCharArray().length; i++){

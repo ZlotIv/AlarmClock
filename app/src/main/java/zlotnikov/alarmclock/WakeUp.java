@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import java.util.Calendar;
+import android.os.Process;
 
 public class WakeUp extends AppCompatActivity {
     private Intent getIntent;
@@ -25,9 +26,7 @@ public class WakeUp extends AppCompatActivity {
         // получение контекста
         context = getApplicationContext();
         Button stopButton = (Button) findViewById(R.id.stopButton);
-        stopButton.setText(R.string.stop);
         Button repeatButton = (Button) findViewById(R.id.repeatButton);
-        stopButton.setText(R.string.repeatAlarmClock);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         toAlarmSoundService = new Intent(context, AlarmSoundService.class);
         getIntent = getIntent();
@@ -38,14 +37,14 @@ public class WakeUp extends AppCompatActivity {
             public void onClick(View v) {
                 stopService(toAlarmSoundService);
                 repeatAlarmClock();
-                finish();
+                finishApp();
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopService(toAlarmSoundService);
-                finish();
+                finishApp();
             }
         });
     }
@@ -54,7 +53,7 @@ public class WakeUp extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         stopService(toAlarmSoundService);
-        finish();
+        finishApp();
     }
 
     // установка следующего будильника
@@ -88,6 +87,18 @@ public class WakeUp extends AppCompatActivity {
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5*60000, repeatPendingIntent);
         }
+    }
+
+    // полное закрытие приложения
+    public void finishApp(){
+        if(Build.VERSION.SDK_INT >= 21){
+            finishAndRemoveTask();
+        } else if(Build.VERSION.SDK_INT >= 16){
+            finishAffinity();
+        } else {
+            finish();
+        }
+        Process.killProcess(Process.myPid());
     }
     @Override
     protected void onStart() {

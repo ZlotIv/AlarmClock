@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         ListView listView = (ListView) findViewById(R.id.alarmClock_list);
-        ImageView newAlarmClock = (ImageButton) findViewById(R.id.new_alarmClock);
-        ImageView chooseButton = (ImageButton) findViewById(R.id.choose_music);
+        ImageButton newAlarmClock = (ImageButton) findViewById(R.id.new_alarmClock);
+        ImageButton chooseButton = (ImageButton) findViewById(R.id.choose_music);
         SQLiteOpenHelper openHelper = new AlarmClockDB(context);
         db = openHelper.getReadableDatabase();
         cursor = db.query("ALARMCLOCK", new String[]{"_id", "HOURS", "MINUTES", "DAYS", "MASSIVE"}, null, null, null, null, null);
@@ -45,9 +44,8 @@ public class MainActivity extends AppCompatActivity {
         deleteDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
         songDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.myAlertDialog);
         adapter = new TimeCursorAdapter(context, R.layout.list_item_layout, cursor, from, to, 0);
-
-
         listView.setAdapter(adapter);
+
         // диалоговое окно для удаления будильника
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {@Override
         public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
