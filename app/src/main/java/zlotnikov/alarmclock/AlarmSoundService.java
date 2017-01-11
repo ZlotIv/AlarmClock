@@ -15,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 
 public class AlarmSoundService extends Service {
-    private volatile AudioManager audioManager;
+    private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private final long mills[] = {1000, 1000, 1000, 1000};
-    private volatile int volume = 1;
+    private int volume = 1;
     private Vibrator vibrator;
     private ChangeVolumeTask changeVolumeTask = new ChangeVolumeTask();
     private int song = R.raw.beethovensilence;
