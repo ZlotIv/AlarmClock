@@ -49,7 +49,7 @@ public class AlarmSettings extends AppCompatActivity {
         intBuffer = new StringBuffer();
         AlertDialog.Builder daysDialogBuilder = new AlertDialog.Builder(this, R.style.myAlertDialog);
 
-        daysDialogBuilder.setTitle(R.string.choosedaysTitle);
+        daysDialogBuilder.setTitle(R.string.chooseDaysTitle);
         // установка диалог. окна с множественным выбором
         daysDialogBuilder.setMultiChoiceItems(daysArray, checkDays, new DialogInterface.OnMultiChoiceClickListener() {
             @Override

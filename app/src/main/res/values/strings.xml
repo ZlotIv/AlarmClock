@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Alarm Clock</string>
-    <string name="choosedaysTitle">Выберите дни недели</string>
+    <string name="chooseDaysTitle">Выберите дни недели</string>
     <string name="cancel">Отмена</string>
     <string name="accept">Подтвердить</string>
     <string name="alarmClockConfirm">Будильник установлен</string>
@@ -8,5 +8,6 @@
     <string name="deleteAlarmClockToast">Будильник удалён</string>
     <string name="chooseSong">Выберите мелодию для будильника</string>
     <string name="stop">Стоп</string>
+    <string name="chooseDaysBtn">Выберите дни</string>
     <string name="repeatAlarmClock">Повторить через 5 минут</string>
 </resources>

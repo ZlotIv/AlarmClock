@@ -20,6 +20,9 @@
     <style name="myAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:colorPrimary">@color/colorBlack</item>
+        <!-- Для тех, кто это читает. ПОЛ ГОДА я не мог поменять цвет кнопок в AlertDialog в xml. И чисто случайно
+          я нашел это решение (строчка ниже) в огромном потоке кода на буржуйском сайте, даже не Stack Overflow -->
+        <item name="colorAccent">@color/colorBlack</item>
         <item name="android:colorAccent">@color/colorBlack</item>
         <item name="android:colorControlNormal">@color/colorBlack</item>
         <item name="android:colorControlActivated">@color/colorBlack</item>

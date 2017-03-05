@@ -17,12 +17,12 @@
         android:layout_centerHorizontal="true"/>
 
     <Button
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        android:text="Выбрать дни"
         android:id="@+id/choose_days"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:background="@drawable/choosedaysbuttonselector"
-        android:textColor="@color/colorWhite" />
+        android:text="@string/chooseDaysBtn"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
